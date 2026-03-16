@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Policy | La Bella Beauty</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Identical Header (Sticky/Fixed) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #dad9d9;
+            z-index: 1000;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .logo-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .logo-container p {
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #000;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .policy-section {
+            margin-top: 200px; 
+            padding: 40px 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+        }
+
+        .policy-box {
+            max-width: 700px;
+            text-align: center;
+            border: 1px solid #eee; 
+            padding: 60px 40px;
+            background-color: #fafafa; 
+        }
+
+        .policy-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .policy-box p {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .policy-box .greeting {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+       .understand btn{
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 50px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: 0.4s ease;
+        }
+
+        .understand-btn:hover {
+            background: #333;
+            transform: translateY(-2px); 
+        }
+
+        @media (max-width: 768px) {
+            .policy-section {
+                margin-top: 180px;
+                padding: 20px;
+            }
+
+            .policy-box {
+                padding: 40px 20px;
+            }
+
+            .logo-container h1 {
+                font-size: 1.8rem;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+        }
+    
+footer {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 60px 10% 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap; 
+    gap: 40px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-logo {
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+.footer-section h3 {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    color: #888; 
+}
+
+.footer-section p {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    font-weight: 300;
+}
+
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.icon-link {
+    color: #ffffff;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: all 0.4s ease;
+}
+
+.icon-link:hover {
+    color: #fff;
+
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
+                 0 0 20px rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+}
+
+
+.footer-bottom {
+    margin-top: 50px;
+    text-align: center;
+    border-top: 1px solid #222;
+    padding-top: 30px;
+}
+
+.footer-bottom p {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: #555;
+}
+
+.footer-bottom a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+    .footer-right, .footer-left, .footer-center {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <h1>LBB</h1>
+            <p>La Bella Beauty</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="gallery.html">GALLERY</a></li>
+                <li><a href="book.html">BOOK</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="policy-section">
+        <div class="policy-box">
+            <h2>Booking Policy</h2>
+            
+            <span class="greeting">Dear La Bella Beauty Client,</span>
+            
+            <p>
+                To ensure the best experience for all our clients, a <b>R200</b> non-refundale commitment fee will be required immediately to secure your nail appointment.
+            
+            <p>
+                A 24-hour notice is required for all cancellations. Deposits are non-refundable for no-shows. By booking, you agree to treat our studio space and staff with respect. We look forward to creating your perfect set!
+            </p><br><br>
+
+            <p>
+                <b>Our Payment Details</b><br>
+                Capitec 1234567890<br> MISS ABC 
+                WhatsApp your <b>PROOF OF PAYMENT</b> to 012 345 6789
+            </p>
+
+
+            <a href="about.html" class="understand-btn">I Understand</a>
+        </div>
+    </main>
+
+    <footer>
+    <div class="footer-container">
+        <div class="footer-section footer-left">
+            <h2 class="footer-logo">La Bella Beauty</h2>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/yourprofile" target="_blank" class="icon-link"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/yourprofile" target="_blank" class="icon-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.tiktok.com/@yourprofile" target="_blank" class="icon-link"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-section footer-center">
+            <h3>TRADING HOURS</h3>
+            <p>Mon - Fri: Appointment Only</p>
+            <p>Sat: Appointment Only</p>
+            <p>Sun: Closed</p>
+            <p>Public Holidays: Closed</p>
+        </div>
+
+        <div class="footer-section footer-right">
+            <h3>VISIT US</h3>
+            <p>359 Bembo Street</p>
+            <p>Mabuya Park, Vosloorus</p>
+            <p>1475</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>Website designed by 
+        <a href="https://www.tiktok.com/@mbali_mahlangu" target="_blank">MbalzCreations</a></p>
+    </div>
+</footer>
+
+</body>
+</html>

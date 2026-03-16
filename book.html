@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment | La Bella Beauty</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #fff;
+            color: #000;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #dad9d9;
+            z-index: 1000;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .logo-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .logo-container p {
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #000;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .booking-container {
+            margin-top: 180px;
+            padding: 40px 5%;
+            text-align: center;
+        }
+
+        .service-list {
+            max-width: 600px;
+            margin: 0 auto;
+            list-style: none;
+        }
+
+        .service-item {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            cursor: pointer;
+        }
+
+        .service-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .sub-options {
+            display: none;
+            padding: 15px;
+            background: #fafafa;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .sub-options.active {
+            display: block;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .btn-book {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: 'Montserrat';
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+        }
+
+        #booking-form-popup {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background: #fff;
+            z-index: 2000;
+            transition: 0.4s;
+            padding: 60px 25px;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        #booking-form-popup.open {
+            right: 0;
+        }
+
+        .close-x {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            font-family: 'Montserrat';
+        }
+
+        .booking-number-box {
+            background: #f4f4f4;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-weight: 600;
+            text-align: center;
+            border: 1px dashed #E1AD01;
+        }
+
+        #calendar-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            z-index: 3000;
+            padding: 120px 5% 40px;
+            overflow-y: auto;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .day {
+            padding: 15px 5px;
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+        }
+
+        .day.selected {
+            background: #000;
+            color: #fff;
+        }
+
+        .day.fully-booked {
+            color: #ccc;
+            text-decoration: line-through;
+            pointer-events: none;
+        }
+
+        .day.fully-booked::after {
+            content: 'FULL';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.5rem;
+            color: red;
+            font-weight: bold;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        .time-btn {
+            padding: 12px;
+            border: 1px solid #000;
+            background: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Montserrat';
+        }
+
+        .time-btn.selected {
+            background: #000;
+            color: #fff;
+        }
+
+        .time-btn.booked {
+            background: #ccc !important;
+            color: #888 !important;
+            cursor: not-allowed !important;
+            border: 1px solid #ccc;
+            text-decoration: line-through;
+        }
+
+        .confirm-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        footer {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 60px 10% 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap; 
+    gap: 40px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-logo {
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+.footer-section h3 {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    color: #888; 
+}
+
+.footer-section p {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    font-weight: 300;
+}
+
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.icon-link {
+    color: #ffffff;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: all 0.4s ease;
+}
+
+.icon-link:hover {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
+                 0 0 20px rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+}
+
+
+
+
+.footer-bottom {
+    margin-top: 50px;
+    text-align: center;
+    border-top: 1px solid #222;
+    padding-top: 30px;
+}
+
+.footer-bottom p {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: #555;
+}
+
+.footer-bottom a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+    .footer-right, .footer-left, .footer-center {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <h1>LBB</h1>
+            <p>La Bella Beauty</p>
+        </div>
+        <nav>
+            <ul>
+                 <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="gallery.html">GALLERY</a></li>
+                <li><a href="book.html">BOOK</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="booking-container">
+        <ul class="service-list">
+            <li class="service-item" onclick="toggleSection('general-sub')">
+                <div class="service-main"><span>General MakeUp</span><span>▼</span></div>
+                <div id="general-sub" class="sub-options" onclick="event.stopPropagation()">
+                    <div class="row"><span>No MakeUp Soft Look - R300</span><button class="btn-book" onclick="selectService('No MakeUp Soft Look', 300)">SELECT</button></div>
+                    <div class="row"><span>Natural Glam - R350</span><button class="btn-book" onclick="selectService('Natural Glam', 350)">SELECT</button></div>
+                    <div class="row"><span>Soft Glam - R400</span><button class="btn-book" onclick="selectService('Soft Glam', 400)">SELECT</button></div>
+                    <div class="row"><span>Full Glam - R450</span><button class="btn-book" onclick="selectService('Full Glam', 450)">SELECT</button></div>
+                </div>
+            </li>
+            <li class="service-item" onclick="toggleSection('bridal-sub')">
+                <div class="service-main"><span>Bridal MakeUp</span><span>▼</span></div>
+                <div id="bridal-sub" class="sub-options" onclick="event.stopPropagation()">
+                    <div class="row"><span>Bridal Glam - R550</span><button class="btn-book" onclick="selectService('Bridal Glam', 550)">SELECT</button></div>
+                    <div class="row"><span>Mother of Bride/Groom - R400</span><button class="btn-book" onclick="selectService('Mother of Bride/Groom', 400)">SELECT</button></div>
+                    <div class="row"><span>Bridesmaid - R450</span><button class="btn-book" onclick="selectService('Bridesmaid', 450)">SELECT</button></div>
+                    <div class="row"><span>Flower Girl - R200</span><button class="btn-book" onclick="selectService('Flower Girl', 200)">SELECT</button></div>
+                    <div class="row"><span>Additional Faces - R400</span><button class="btn-book" onclick="selectService('Additional Faces', 400)">SELECT</button></div>
+                    <div class="row"><span>Groom - R250</span><button class="btn-book" onclick="selectService('Groom', 250)">SELECT</button></div>
+                </div>
+            </li>
+        </ul>
+    </main>
+
+    <div id="booking-form-popup">
+        <span class="close-x" onclick="closeForm()">×</span>
+        <h3 style="font-family:'Playfair Display'; margin-bottom:10px;">Complete Your Details</h3>
+        <p id="selected-service-display" style="color: #666; margin-bottom: 20px; font-weight: 300;"></p>
+        
+        <input type="text" id="user-name" placeholder="Name" required>
+        <input type="text" id="user-surname" placeholder="Surname" required>
+        <input type="tel" id="user-phone" placeholder="Phone Number" required>
+
+        <div class="booking-number-box">
+            Your booking number is: Please use it as reference when paying your booking fee of R200! <br>
+            <span id="booking-id-display" style="color: #000; font-size: 1.2rem; letter-spacing: 2px;">---</span>
+        </div>
+
+        <button class="confirm-btn" onclick="openCalendar()">SELECT DATE & TIME</button>
+    </div>
+
+    <div id="calendar-modal">
+        <h2 style="text-align:center; font-family:'Playfair Display'; margin-bottom:20px;">Choose a Slot</h2>
+        <div class="calendar-grid" id="calendar-grid"></div>
+        <div class="time-grid" id="time-list"></div>
+        <button class="confirm-btn" style="max-width:300px; display:block; margin: 30px auto;" onclick="sendToWhatsApp()">BOOK MY APPOINTMENT</button>
+        <p style="text-align:center; cursor:pointer; text-decoration:underline;" onclick="document.getElementById('calendar-modal').style.display='none'">Go Back</p>
+    </div>
+
+
+    <footer>
+        <div class="footer-container">
+        <div class="footer-section footer-left">
+            <h2 class="footer-logo">La Bella Beauty</h2>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/yourprofile" target="_blank" class="icon-link"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/yourprofile" target="_blank" class="icon-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.tiktok.com/@yourprofile" target="_blank" class="icon-link"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-section footer-center">
+            <h3>TRADING HOURS</h3>
+            <p>Mon - Fri: Appointmeny Only</p>
+            <p>Sat:Appointmnet Only</p>
+            <p>Sun: Closed</p>
+        </div>
+
+        <div class="footer-section footer-right">
+            <h3>VISIT US</h3>
+            <p>359 Bembo Street</p>
+            <p>Mabuya Park, Vosloorus</p>
+            <p>1475</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>Website designed by <a href="https://www.tiktok.com/@mbali_mahlangu" target="_blank">Mbali Mahlangu</a> 2026</p>
+    </div>
+    </footer>
+
+
+    <script>
+        let bookingDetails = { service: '', price: 0, name: '', surname: '', phone: '', date: '', time: '', id: '' };
+        const availableSlots = ["09:00", "11:00", "13:00", "15:00", "17:00"];
+
+        if (!localStorage.getItem('lbb_local_db')) {
+            localStorage.setItem('lbb_local_db', JSON.stringify([]));
+        }
+
+        function toggleSection(id) { document.getElementById(id).classList.toggle('active'); }
+
+        function selectService(name, price) {
+            bookingDetails.service = name;
+            bookingDetails.price = price;
+            bookingDetails.id = "LBB-" + Math.floor(Math.random()*900000 + 100000);
+            
+            document.getElementById('selected-service-display').innerText = `${name} (R${price})`;
+            document.getElementById('booking-id-display').innerText = bookingDetails.id;
+            document.getElementById('booking-form-popup').classList.add('open');
+        }
+
+        function closeForm() { document.getElementById('booking-form-popup').classList.remove('open'); }
+
+        function openCalendar() {
+            bookingDetails.name = document.getElementById('user-name').value;
+            bookingDetails.surname = document.getElementById('user-surname').value;
+            bookingDetails.phone = document.getElementById('user-phone').value;
+
+            if(!bookingDetails.name || !bookingDetails.surname || !bookingDetails.phone) {
+                alert("Please fill in all your details to proceed.");
+                return;
+            }
+            document.getElementById('calendar-modal').style.display = 'block';
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            const localData = JSON.parse(localStorage.getItem('lbb_local_db'));
+            grid.innerHTML = '';
+            
+            for(let i=1; i<=31; i++) {
+                const dateString = `${i} March 2026`;
+                const count = localData.filter(item => item.date === dateString).length;
+                const isFull = count >= availableSlots.length;
+                const dayClass = isFull ? 'day fully-booked' : 'day';
+                grid.innerHTML += `<div class="${dayClass}" onclick="selectDate(this, ${i})">${i}</div>`;
+            }
+        }
+
+        function selectDate(el, day) {
+            if(el.classList.contains('fully-booked')) return;
+            document.querySelectorAll('.day').forEach(d => d.classList.remove('selected'));
+            el.classList.add('selected');
+            bookingDetails.date = `${day} March 2026`;
+            renderTimeSlots(bookingDetails.date);
+        }
+
+        function renderTimeSlots(dateStr) {
+            const timeList = document.getElementById('time-list');
+            const localData = JSON.parse(localStorage.getItem('lbb_local_db'));
+            timeList.innerHTML = '';
+            const takenTimes = localData.filter(item => item.date === dateStr).map(item => item.time);
+
+            availableSlots.forEach(slot => {
+                const isTaken = takenTimes.includes(slot);
+                const btnClass = isTaken ? 'time-btn booked' : 'time-btn';
+                const btnText = isTaken ? 'Taken' : slot;
+                const clickAction = isTaken ? '' : `onclick="selectTime(this)"`;
+                timeList.innerHTML += `<button class="${btnClass}" ${clickAction}>${btnText}</button>`;
+            });
+        }
+
+        function selectTime(el) {
+            document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            bookingDetails.time = el.innerText;
+        }
+
+        function sendToWhatsApp() {
+            if(!bookingDetails.date || !bookingDetails.time) {
+                alert("Please select both a date and a time slot.");
+                return;
+            }
+
+            // 1. Save all details to localStorage so the Dashboard can see them
+            const localData = JSON.parse(localStorage.getItem('lbb_local_db'));
+            localData.push({
+                date: bookingDetails.date,
+                time: bookingDetails.time,
+                name: bookingDetails.name,
+                surname: bookingDetails.surname,
+                phone: bookingDetails.phone,
+                service: bookingDetails.service,
+                price: bookingDetails.price,
+                id: bookingDetails.id,
+                status: 'Pending' // Default status for owner dashboard
+            });
+            localStorage.setItem('lbb_local_db', JSON.stringify(localData));
+
+            // 2. Open WhatsApp
+            const message = `Hello La Bella Beauty! I ${bookingDetails.name} ${bookingDetails.surname} would like to book an appointment for ${bookingDetails.service} (R${bookingDetails.price}) for the ${bookingDetails.date} at ${bookingDetails.time}. My appointment number is ${bookingDetails.id}. Thank you!`;
+            window.open(`https://wa.me/27813198929?text=${encodeURIComponent(message)}`, '_blank');
+
+            // 3. UI Cleanup
+            setTimeout(() => {
+                alert("Booking recorded! Opening WhatsApp...");
+                location.reload(); 
+            }, 800);
+        }
+    </script>
+
+    <div class="footer-bottom">
+        <p>Designed by Mbali Mahlangu 2026</p>
+    </div>
+
+</body>
+</html>
